@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Co-Browser Bridge</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 14px;
+      width: 340px;
+      font: 13px/1.4 "Segoe UI", system-ui, sans-serif;
+      color: #1d1d1f;
+      background: linear-gradient(180deg, #f7f9fc 0%, #eef3fb 100%);
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+    .card {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(18, 63, 125, 0.12);
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 8px 22px rgba(18, 63, 125, 0.08);
+    }
+    .row {
+      margin: 0 0 8px;
+    }
+    .label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #5d6b82;
+      margin-bottom: 4px;
+    }
+    .value {
+      word-break: break-word;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid rgba(18, 63, 125, 0.18);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font: inherit;
+      background: #fff;
+    }
+    button {
+      margin-top: 10px;
+      border: 0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font: inherit;
+      cursor: pointer;
+      background: #0b5fff;
+      color: #fff;
+    }
+    button.secondary {
+      background: #dce7fb;
+      color: #123f7d;
+      margin-left: 8px;
+    }
+    .status-ok { color: #0a7f45; }
+    .status-off { color: #a12a2a; }
+  </style>
+</head>
+<body>
+  <h1>Co-Browser Bridge</h1>
+  <div class="card">
+    <div class="row">
+      <span class="label">Connection</span>
+      <div id="connection" class="value status-off">Checking…</div>
+    </div>
+    <div class="row">
+      <span class="label">Bridge Endpoint</span>
+      <input id="bridgeEndpoint" type="text" />
+    </div>
+    <div class="row">
+      <span class="label">Active Tab</span>
+      <div id="activeTab" class="value">None</div>
+    </div>
+    <div class="row">
+      <span class="label">Instance</span>
+      <div id="instanceId" class="value">Unknown</div>
+    </div>
+    <button id="saveButton">Save & Reconnect</button>
+    <button id="refreshButton" class="secondary">Refresh</button>
+  </div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

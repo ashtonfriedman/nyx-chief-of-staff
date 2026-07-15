@@ -1,0 +1,36 @@
+{
+  "ado": {
+    "org": "https://<ado-org>.visualstudio.com",
+    "project": "<ADO_PROJECT>",
+    "areaPath": "<AREA_PATH>",
+    "repoName": "<REPO_NAME>"
+  },
+  "current": {
+    "name": "<CURRENT_SPRINT_NAME>",
+    "start": "<YYYY-MM-DD>",
+    "end": "<YYYY-MM-DD>",
+    "days": 14,
+    "iterationPath": "<CURRENT_ITERATION_PATH>"
+  },
+  "previous": {
+    "name": "<PREVIOUS_SPRINT_NAME>",
+    "start": "<YYYY-MM-DD>",
+    "end": "<YYYY-MM-DD>",
+    "days": 14,
+    "iterationPath": "<PREVIOUS_ITERATION_PATH>"
+  },
+  "period": {
+    "name": "<PERIOD>",
+    "start": "<YYYY-MM-DD>",
+    "end": "<YYYY-MM-DD>"
+  },
+  "areaPath": "<AREA_PATH>",
+  "rosterSeeds": {
+    "peerGroupName": "<PEER_GROUP_NAME>",
+    "overrides": {
+      "<TEAM_MEMBER_1>": {
+        "note": "<NOTE>"
+      }
+    }
+  }
+}

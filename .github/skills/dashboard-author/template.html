@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>[[Title]]</title>
+<!--
+  dashboard-author template. Self-contained: inline CSS, inline SVG, no external assets.
+  Replace every [[ ... ]] placeholder. Delete tiers/sections you don't need.
+  Structure (keep this order):
+    TIER 1  Orient at a glance  (+ collapsed <details> background)
+    TIER 2  Flow / process diagram(s)  (inline SVG + legend)
+    TIER 3  The substance  (cards / tables / options — whatever fits)
+-->
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#30363d;
+    --txt:#e6edf3; --muted:#9aa7b4;
+    --amber:#f0a849; --amberbg:#3a2c12; --amberline:#5a4318;   /* attention / change */
+    --green:#3fb950; --greenbg:#102a17; --greenline:#1c4429;   /* good / reused / done */
+    --blue:#58a6ff;  --bluebg:#11243d;  --blueline:#1f3a5c;    /* info / config */
+    --red:#f85149;   --redbg:#3a1414;   --redline:#5c1f1f;     /* risk */
+    --purple:#bc8cff;                                          /* secondary */
+    --mono:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    font-size:13.5px;line-height:1.45;padding:22px 24px 64px}
+  .wrap{max-width:1100px;margin:0 auto}
+  h1{font-size:20px;margin:0 0 4px}
+  h2{font-size:15px;margin:26px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 6px}
+  .glance{font-size:14px;margin:6px 0 0}
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;vertical-align:middle}
+  .pill.amber{background:var(--amberbg);color:var(--amber);border:1px solid var(--amberline)}
+  .pill.green{background:var(--greenbg);color:var(--green);border:1px solid var(--greenline)}
+  .pill.blue{background:var(--bluebg);color:var(--blue);border:1px solid var(--blueline)}
+  .pill.red{background:var(--redbg);color:var(--red);border:1px solid var(--redline)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+  @media(max-width:860px){.g2,.g3{grid-template-columns:1fr}}
+  code,pre{font-family:var(--mono)}
+  pre{background:#0a0e14;border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow:auto;font-size:12.5px;margin:8px 0 0}
+  .diagram{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;overflow:auto}
+  ul{margin:8px 0 0;padding-left:20px} li{margin:4px 0}
+  .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .filepath{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin:2px 0 12px;font-size:12.5px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:13px;height:13px;border-radius:3px;display:inline-block}
+  details{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:0 16px;margin-top:12px}
+  details[open]{padding-bottom:14px}
+  summary{cursor:pointer;padding:13px 0;font-weight:600;color:var(--txt);list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:'▸ ';color:var(--muted)}
+  details[open] summary::before{content:'▾ '}
+  .foot{margin-top:36px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ TIER 1 · ORIENT AT A GLANCE ============ -->
+  <!-- Plain language. No jargon. The reader has zero context and ten seconds. -->
+  <h1>[[Title — what this is]] <span class="pill blue">[[optional tag]]</span></h1>
+  <p class="sub">[[Optional one-line scope / date — delete if not needed]]</p>
+  <p class="glance"><strong>[[One plain sentence: the bottom line / "so what".]]</strong></p>
+
+  <!-- Background is one click away, collapsed by default. Jargon, history, definitions live here. -->
+  <details>
+    <summary>Background &amp; context</summary>
+    <p>[[Who asked, why it matters, definitions, history, the acronyms you avoided above.
+       This is where depth lives so the glance can stay clean.]]</p>
+  </details>
+
+  <!-- ============ TIER 2 · FLOW / PROCESS DIAGRAM ============ -->
+  <!-- Delete this whole section if there is no flow to show. -->
+  <h2>[[How it works / the flow]]</h2>
+  <div class="legend">
+    <span><span class="sw" style="background:var(--amberbg);border:1px solid var(--amberline)"></span> [[meaning of amber]]</span>
+    <span><span class="sw" style="background:var(--greenbg);border:1px solid var(--greenline)"></span> [[meaning of green]]</span>
+    <span><span class="sw" style="background:var(--bluebg);border:1px solid var(--blueline)"></span> [[meaning of blue]]</span>
+  </div>
+  <div class="diagram">
+    <!-- Adjust viewBox width/height to fit your diagram (more boxes, branching, swimlanes).
+         width="100%" + viewBox makes it scale down on narrow screens.
+         Note: SVG <text> can't inherit CSS variables — keep this font stack in sync with the body font. -->
+    <!-- a11y: role="img" + <title>/<desc> give the diagram an accessible name for screen
+         readers and satisfy axe's svg-img-alt rule. Keep the title short; put the fuller
+         explanation in <desc>. Update both to match the actual diagram. -->
+    <svg viewBox="0 0 1000 220" width="100%" role="img" aria-labelledby="diagTitle diagDesc"
+         font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif">
+      <title id="diagTitle">[[One-line accessible name for this diagram]]</title>
+      <desc id="diagDesc">[[Longer description: the flow, boxes, and what connects to what]]</desc>
+      <defs>
+        <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L8,3 L0,6 Z" fill="#7d8896"/>
+        </marker>
+      </defs>
+      <!-- box A (amber = change/attention) -->
+      <rect x="20" y="60" width="220" height="100" rx="10" fill="#3a2c12" stroke="#5a4318" stroke-width="1.5"/>
+      <text x="36" y="92" fill="#f0a849" font-size="13" font-weight="700">[[Box A title]]</text>
+      <text x="36" y="114" fill="#e6edf3" font-size="11">[[detail]]</text>
+      <text x="36" y="132" fill="#9aa7b4" font-size="10.5">[[detail]]</text>
+      <!-- arrow -->
+      <line x1="240" y1="110" x2="300" y2="110" stroke="#7d8896" stroke-width="2" marker-end="url(#arr)"/>
+      <text x="248" y="100" fill="#9aa7b4" font-size="10">[[what flows]]</text>
+      <!-- box B (green = reused/good) -->
+      <rect x="305" y="60" width="220" height="100" rx="10" fill="#102a17" stroke="#1c4429" stroke-width="1.5"/>
+      <text x="321" y="92" fill="#3fb950" font-size="13" font-weight="700">[[Box B title]]</text>
+      <text x="321" y="114" fill="#e6edf3" font-size="11">[[detail]]</text>
+      <line x1="525" y1="110" x2="585" y2="110" stroke="#7d8896" stroke-width="2" marker-end="url(#arr)"/>
+      <text x="533" y="100" fill="#9aa7b4" font-size="10">[[what flows]]</text>
+      <!-- box C (blue = info/config) -->
+      <rect x="590" y="60" width="220" height="100" rx="10" fill="#11243d" stroke="#1f3a5c" stroke-width="1.5"/>
+      <text x="606" y="92" fill="#58a6ff" font-size="13" font-weight="700">[[Box C title]]</text>
+      <text x="606" y="114" fill="#e6edf3" font-size="11">[[detail]]</text>
+    </svg>
+  </div>
+
+  <!-- ============ TIER 3 · THE SUBSTANCE ============ -->
+  <!-- Use whatever fits the task: option cards, before/after, risk table, scope table, Q&A.
+       If it's a SINGLE recommendation, use the verdict card below instead of a comparison. -->
+
+  <!-- Example: single recommendation (use this when there's one answer, not options) -->
+  <h2>[[Recommendation]]</h2>
+  <div class="card" style="border-left:3px solid var(--green)">
+    <div class="lbl">Verdict <span class="pill green">[[do this]]</span></div>
+    <p>[[The recommendation in one or two plain sentences, plus why.]]</p>
+    <details>
+      <summary>Alternatives considered</summary>
+      <p>[[What else was on the table and why it lost.]]</p>
+    </details>
+  </div>
+
+  <!-- Example: before / after comparison -->
+  <h2>[[Comparison / options / decision]]</h2>
+  <div class="grid g2">
+    <div class="card">
+      <div class="lbl">[[Option / Today]] <span class="pill red">[[label]]</span></div>
+      <p>[[explanation]]</p>
+<pre>[[code or data sample]]</pre>
+    </div>
+    <div class="card">
+      <div class="lbl">[[Option / Proposed]] <span class="pill green">[[label]]</span></div>
+      <p>[[explanation]]</p>
+<pre>[[code or data sample]]</pre>
+    </div>
+  </div>
+
+  <!-- Example: a table (scope, risk, etc.) -->
+  <h2>[[Table section — e.g. scope or risk]]</h2>
+  <table>
+    <thead><tr><th>[[col]]</th><th>[[col]]</th><th>[[col]]</th></tr></thead>
+    <tbody>
+      <tr><td>[[…]]</td><td class="filepath">[[citation]]</td><td><span class="pill amber">[[band]]</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- Example: open questions -->
+  <h2>[[Open questions / next]]</h2>
+  <div class="card">
+    <ul>
+      <li>[[question]]</li>
+      <li>[[question]]</li>
+    </ul>
+  </div>
+
+  <div class="foot">[[Grounding / sources / generated date. Cite file+line or query for data-backed claims.]]</div>
+
+</div>
+</body>
+</html>

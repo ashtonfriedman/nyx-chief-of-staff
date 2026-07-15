@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint Planning — {{ current_sprint_name }} → {{ next_sprint_name }}</title>
+<style>
+/* Dark theme (NFR-005) */
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --green: #3fb950;
+  --yellow: #d29922;
+  --red: #f85149;
+  --orange: #db6d28;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+h1 { color: var(--accent); font-size: 1.6em; margin-bottom: 8px; }
+h2 { color: var(--text); font-size: 1.3em; margin: 24px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+h3 { color: var(--text-muted); font-size: 1.1em; margin: 16px 0 8px; }
+
+.header-meta { color: var(--text-muted); font-size: 0.9em; margin-bottom: 20px; }
+
+/* Warning banner */
+.warning-banner {
+  background: #2d1b00;
+  border: 1px solid var(--orange);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+.warning-banner.critical {
+  background: #2d0000;
+  border-color: var(--red);
+}
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin: 12px 0; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+.card-title { font-weight: 600; color: var(--accent); }
+.card-stat { font-size: 1.4em; font-weight: 700; margin: 4px 0; }
+.card-detail { color: var(--text-muted); font-size: 0.85em; }
+
+/* State pills */
+.state-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  font-weight: 600;
+  margin: 2px;
+}
+.state-New { background: #1f6feb33; color: var(--accent); }
+.state-Active { background: #3fb95033; color: var(--green); }
+.state-Resolved { background: #d2992233; color: var(--yellow); }
+.state-Committed { background: #a371f733; color: #a371f7; }
+.state-Blocked { background: #f8514933; color: var(--red); }
+
+/* Load bar */
+.load-bar-container { margin: 4px 0; display: flex; align-items: center; gap: 8px; }
+.load-bar-label { min-width: 140px; text-align: right; font-size: 0.85em; color: var(--text-muted); }
+.load-bar-track { flex: 1; height: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.load-bar-fill { height: 100%; background: var(--accent); transition: width 0.3s; }
+.load-bar-value { min-width: 50px; font-size: 0.85em; font-weight: 600; }
+
+/* Velocity indicator */
+.velocity-indicator {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 1.1em;
+}
+.velocity-ok { background: #3fb95033; color: var(--green); }
+.velocity-over { background: #f8514933; color: var(--red); }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+  font-size: 0.85em;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+th:hover { color: var(--accent); }
+th .sort-arrow { margin-left: 4px; opacity: 0.5; }
+td {
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  font-size: 0.85em;
+}
+tr:nth-child(even) { background: #161b2280; }
+tr:hover { background: #1f6feb15; }
+
+/* Collapsible sections */
+details { margin: 8px 0; }
+summary {
+  cursor: pointer;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-weight: 600;
+  color: var(--text);
+}
+summary:hover { border-color: var(--accent); }
+details[open] > summary { border-radius: 6px 6px 0 0; }
+
+/* Talking points */
+.talking-point {
+  padding: 8px 12px;
+  margin: 4px 0;
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Warnings list */
+.warning-item { padding: 6px 0; border-bottom: 1px solid var(--border); }
+.warning-item:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<h1>🏃 Sprint Planning Dashboard</h1>
+<div class="header-meta">
+  {{ current_sprint_name }} → {{ next_sprint_name }} &nbsp;|&nbsp;
+  Velocity target: {{ velocity }} SP
+</div>
+
+{# ═══════ WARNINGS SECTION (FR-019) — prominently above the fold ═══════ #}
+{% if warnings %}
+<h2>⚠️ Warnings</h2>
+{% for w in warnings %}
+<div class="warning-banner {% if w.level == 'critical' %}critical{% endif %}">
+  {{ w.icon }} {{ w.message }}
+</div>
+{% endfor %}
+{% endif %}
+
+{# ═══════ NEXT SPRINT SECTION (FR-018) ═══════ #}
+<h2>📅 Next Sprint: {{ next_sprint_name }}</h2>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-detail">Total Load</div>
+    <div class="card-stat">
+      <span class="velocity-indicator {% if is_overloaded %}velocity-over{% else %}velocity-ok{% endif %}">
+        {{ "%.0f"|format(next_sp_total) }} SP
+      </span>
+    </div>
+    <div class="card-detail">
+      vs {{ velocity }} SP velocity ({{ "%+.0f"|format(velocity_delta) }} SP, {{ "%+.0f"|format(velocity_pct) }}%)
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-detail">Items</div>
+    <div class="card-stat">{{ next_item_count }}</div>
+  </div>
+  <div class="card">
+    <div class="card-detail">Features</div>
+    <div class="card-stat">{{ feature_cards|length }}</div>
+  </div>
+</div>
+
+{# Feature cards #}
+{% if feature_cards %}
+<h3>Features in Next Sprint</h3>
+<div class="card-grid">
+{% for fc in feature_cards %}
+  <div class="card">
+    <div class="card-title">#{{ fc.id }} {{ fc.title }}</div>
+    <div class="card-stat">{{ "%.0f"|format(fc.sp) }} SP</div>
+    <div class="card-detail">
+      {{ fc.child_count }} items
+      {% if fc.effort %} · {{ fc.effort }} FP{% endif %}
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endif %}
+
+{# SP by assignee #}
+{% if sp_by_assignee %}
+<h3>Load by Assignee</h3>
+{% for a in sp_by_assignee %}
+<div class="load-bar-container">
+  <div class="load-bar-label">{{ a.name }}</div>
+  <div class="load-bar-track">
+    <div class="load-bar-fill" style="width: {{ (a.sp / (next_sp_total if next_sp_total > 0 else 1) * 100)|int }}%"></div>
+  </div>
+  <div class="load-bar-value">{{ "%.0f"|format(a.sp) }} SP</div>
+</div>
+{% endfor %}
+{% endif %}
+
+{# Next sprint items table #}
+<details>
+<summary>📋 Next Sprint Items ({{ next_item_count }})</summary>
+<table>
+<thead>
+<tr>
+  <th data-sort="number">ID<span class="sort-arrow">⇅</span></th>
+  <th data-sort="string">Type<span class="sort-arrow">⇅</span></th>
+  <th data-sort="string">State<span class="sort-arrow">⇅</span></th>
+  <th data-sort="number">P<span class="sort-arrow">⇅</span></th>
+  <th data-sort="number">SP<span class="sort-arrow">⇅</span></th>
+  <th data-sort="string">Assigned<span class="sort-arrow">⇅</span></th>
+  <th data-sort="string">Title<span class="sort-arrow">⇅</span></th>
+</tr>
+</thead>
+<tbody>
+{% for item in next_items %}
+<tr>
+  <td data-val="{{ item.id }}">{{ item.id }}</td>
+  <td data-val="{{ item.type }}"><span class="state-pill state-{{ item.type|replace(' ', '') }}">{{ item.type }}</span></td>
+  <td data-val="{{ item.state }}"><span class="state-pill state-{{ item.state }}">{{ item.state }}</span></td>
+  <td data-val="{{ item.priority }}">P{{ item.priority }}</td>
+  <td data-val="{{ item.sp }}">{{ item.sp }}</td>
+  <td data-val="{{ item.assigned }}">{{ item.assigned }}</td>
+  <td data-val="{{ item.title }}">{{ item.title }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</details>
+
+{# ═══════ CURRENT SPRINT SECTION (FR-017) ═══════ #}
+<h2>📌 Current Sprint: {{ current_sprint_name }}</h2>
+
+{# State summary #}
+<div class="card-grid">
+{% for state, count in current_state_summary.items() %}
+  <div class="card">
+    <div class="card-detail">{{ state }}</div>
+    <div class="card-stat">{{ count }}</div>
+  </div>
+{% endfor %}
+  <div class="card">
+    <div class="card-detail">Total</div>
+    <div class="card-stat">{{ current_item_count }}</div>
+  </div>
+</div>
+
+{# Team load bars #}
+{% if current_assignee_load %}
+<h3>Team Load (Current Sprint)</h3>
+{% for a in current_assignee_load %}
+<div class="load-bar-container">
+  <div class="load-bar-label">{{ a.name }}</div>
+  <div class="load-bar-track">
+    <div class="load-bar-fill" style="width: {{ a.pct }}%"></div>
+  </div>
+  <div class="load-bar-value">{{ "%.0f"|format(a.sp) }} SP</div>
+</div>
+{% endfor %}
+{% endif %}
+
+{# Current sprint items table #}
+<details>
+<summary>📋 Current Sprint Items ({{ current_item_count }})</summary>
+<table>
+<thead>
+<tr>
+  <th data-sort="number">ID<span class="sort-arrow">⇅</span></th>
+  <th data-sort="string">Type<span class="sort-arrow">⇅</span></th>
+  <th data-sort="string">State<span class="sort-arrow">⇅</span></th>
+  <th data-sort="number">P<span class="sort-arrow">⇅</span></th>
+  <th data-sort="number">SP<span class="sort-arrow">⇅</span></th>
+  <th data-sort="string">Assigned<span class="sort-arrow">⇅</span></th>
+  <th data-sort="string">Title<span class="sort-arrow">⇅</span></th>
+</tr>
+</thead>
+<tbody>
+{% for item in current_items %}
+<tr>
+  <td data-val="{{ item.id }}">{{ item.id }}</td>
+  <td data-val="{{ item.type }}"><span class="state-pill">{{ item.type }}</span></td>
+  <td data-val="{{ item.state }}"><span class="state-pill state-{{ item.state }}">{{ item.state }}</span></td>
+  <td data-val="{{ item.priority }}">P{{ item.priority }}</td>
+  <td data-val="{{ item.sp }}">{{ item.sp }}</td>
+  <td data-val="{{ item.assigned }}">{{ item.assigned }}</td>
+  <td data-val="{{ item.title }}">{{ item.title }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</details>
+
+{# ═══════ TALKING POINTS SECTION (FR-020) ═══════ #}
+{% if talking_points %}
+<h2>🎯 Talking Points</h2>
+{% for point in talking_points %}
+<div class="talking-point">{{ point }}</div>
+{% endfor %}
+{% endif %}
+
+{# ═══════ MUTATION SUMMARY (if available) ═══════ #}
+{% if mutation_summary %}
+<h2>📝 Changes Applied</h2>
+{% for label, data in mutation_summary.items() %}
+<details>
+<summary>{{ label }} — {{ data.succeeded|length }} succeeded, {{ data.skipped|length }} skipped, {{ data.failed|length }} failed</summary>
+<div style="padding: 8px 12px;">
+{% if data.succeeded %}
+  <p style="color: var(--green);">✅ Succeeded ({{ data.succeeded|length }}):</p>
+  <ul>{% for s in data.succeeded %}<li>#{{ s.id }} {{ s.get('title', '') if s.get('title') else s.get('detail', '') }}</li>{% endfor %}</ul>
+{% endif %}
+{% if data.skipped %}
+  <p style="color: var(--yellow);">⏭ Skipped ({{ data.skipped|length }}):</p>
+  <ul>{% for s in data.skipped %}<li>#{{ s.id }}: {{ s.reason }}</li>{% endfor %}</ul>
+{% endif %}
+{% if data.failed %}
+  <p style="color: var(--red);">❌ Failed ({{ data.failed|length }}):</p>
+  <ul>{% for s in data.failed %}<li>#{{ s.id }}: {{ s.get('error', 'unknown') }}</li>{% endfor %}</ul>
+{% endif %}
+</div>
+</details>
+{% endfor %}
+{% endif %}
+
+{# ═══════ DOM-based table sort (SEC-007) ═══════ #}
+{# Sort operates only on pre-rendered, already-escaped DOM content.      #}
+{# Sort keys come from data-val attributes set at render time.           #}
+<script>
+(function() {
+  document.querySelectorAll('th[data-sort]').forEach(function(th) {
+    th.addEventListener('click', function() {
+      var table = th.closest('table');
+      var tbody = table.querySelector('tbody');
+      var rows = Array.from(tbody.querySelectorAll('tr'));
+      var colIdx = Array.from(th.parentNode.children).indexOf(th);
+      var sortType = th.getAttribute('data-sort');
+      var asc = th.getAttribute('data-dir') !== 'asc';
+      th.setAttribute('data-dir', asc ? 'asc' : 'desc');
+      rows.sort(function(a, b) {
+        var aVal = a.children[colIdx].getAttribute('data-val') || '';
+        var bVal = b.children[colIdx].getAttribute('data-val') || '';
+        if (sortType === 'number') {
+          return asc ? (parseFloat(aVal) - parseFloat(bVal)) : (parseFloat(bVal) - parseFloat(aVal));
+        }
+        return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      });
+      rows.forEach(function(row) { tbody.appendChild(row); });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

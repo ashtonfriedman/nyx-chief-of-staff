@@ -1,0 +1,13 @@
+.working-memory/graph.db
+.github/extensions/canvas/data/content/
+.github/extensions/cron/data/engine.log
+.github/extensions/cron/data/engine.lock
+.github/extensions/cron/data/history/*.json
+.github/extensions/cron/data/jobs/*.json
+.github/scripts/data/*.log
+node_modules/
+__pycache__/
+*.pyc
+
+gho_*
+*.tok

@@ -1,0 +1,12 @@
+node_modules/
+
+# Data files (contain employee names, work items, org structure)
+data/team-data.json
+data/velocity-history.json
+data/computed-roster.json
+data-embed.js
+
+# Build artifacts (regeneratable from src/)
+team-dashboard.bundle.js
+team-dashboard.bundle.js.map
+*.bak

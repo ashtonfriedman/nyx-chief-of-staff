@@ -1,0 +1,13 @@
+{
+  "name": "team-dashboard",
+  "version": "3.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node build.js",
+    "build:watch": "node build.js --watch",
+    "test": "node --test test/*.test.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

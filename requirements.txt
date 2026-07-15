@@ -1,0 +1,4 @@
+# Runtime dependencies for Python-based skills.
+Brotli
+jinja2
+playwright

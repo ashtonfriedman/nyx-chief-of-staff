@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Co-Browser Active Tab Bridge",
+  "version": "0.1.1",
+  "description": "Expose the currently active Edge/Chrome tab to the local co-browser bridge.",
+  "permissions": [
+    "activeTab",
+    "alarms",
+    "tabs",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:44777/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-bridge-wake.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Co-Browser Active Tab Bridge",
+    "default_popup": "popup.html"
+  }
+}

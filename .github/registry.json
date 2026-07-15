@@ -1,0 +1,175 @@
+{
+  "version": "3.0.0",
+  "source": "agent-starter-kit",
+  "channel": "main",
+  "extensions": {
+    "cron": {
+      "version": "0.1.4",
+      "path": ".github/extensions/cron",
+      "description": "Scheduled job execution with cron, interval, and one-shot payloads"
+    },
+    "canvas": {
+      "version": "0.1.3",
+      "path": ".github/extensions/canvas",
+      "description": "Display rich HTML content in the browser with SSE live reload"
+    },
+    "cobrowser": {
+      "version": "0.1.0",
+      "path": ".github/extensions/cobrowser"
+    },
+    "graph-query": {
+      "version": "0.1.0",
+      "path": ".github/extensions/graph-query"
+    }
+  },
+  "skills": {
+    "ado-query": {
+      "version": "0.1.0",
+      "path": ".github/skills/ado-query"
+    },
+    "ado-work-item": {
+      "version": "0.1.0",
+      "path": ".github/skills/ado-work-item"
+    },
+    "analyze": {
+      "version": "0.1.0",
+      "path": ".github/skills/analyze"
+    },
+    "anti-sycophancy": {
+      "version": "0.1.0",
+      "path": ".github/skills/anti-sycophancy"
+    },
+    "boot": {
+      "version": "0.1.0",
+      "path": ".github/skills/boot"
+    },
+    "clarify": {
+      "version": "0.1.0",
+      "path": ".github/skills/clarify"
+    },
+    "commit": {
+      "version": "0.1.0",
+      "path": ".github/skills/commit"
+    },
+    "daily-dashboard": {
+      "version": "0.1.0",
+      "path": ".github/skills/daily-dashboard"
+    },
+    "daily-report": {
+      "version": "0.1.0",
+      "path": ".github/skills/daily-report"
+    },
+    "draft": {
+      "version": "0.1.0",
+      "path": ".github/skills/draft"
+    },
+    "fact-check": {
+      "version": "0.1.0",
+      "path": ".github/skills/fact-check"
+    },
+    "feature-progress": {
+      "version": "0.1.0",
+      "path": ".github/skills/feature-progress"
+    },
+    "graph-index": {
+      "version": "0.1.0",
+      "path": ".github/skills/graph-index"
+    },
+    "graph-query": {
+      "version": "0.1.0",
+      "path": ".github/skills/graph-query"
+    },
+    "log-consolidate": {
+      "version": "0.1.0",
+      "path": ".github/skills/log-consolidate"
+    },
+    "meeting-prep": {
+      "version": "0.1.0",
+      "path": ".github/skills/meeting-prep"
+    },
+    "meeting-setup": {
+      "version": "0.1.0",
+      "path": ".github/skills/meeting-setup"
+    },
+    "meeting-transcript": {
+      "version": "0.1.0",
+      "path": ".github/skills/meeting-transcript"
+    },
+    "mind-audit": {
+      "version": "0.1.0",
+      "path": ".github/skills/mind-audit"
+    },
+    "mind-learn": {
+      "version": "0.1.0",
+      "path": ".github/skills/mind-learn"
+    },
+    "agent-maintenance": {
+      "version": "0.1.0",
+      "path": ".github/skills/agent-maintenance"
+    },
+    "one-on-one-prep": {
+      "version": "0.1.0",
+      "path": ".github/skills/one-on-one-prep"
+    },
+    "outbound-audit": {
+      "version": "0.1.0",
+      "path": ".github/skills/outbound-audit"
+    },
+    "reflect": {
+      "version": "0.1.0",
+      "path": ".github/skills/reflect"
+    },
+    "retro-content-lint": {
+      "version": "0.1.0",
+      "path": ".github/skills/retro-content-lint"
+    },
+    "retro-prep": {
+      "version": "0.1.0",
+      "path": ".github/skills/retro-prep"
+    },
+    "screenshot-intake": {
+      "version": "0.1.0",
+      "path": ".github/skills/screenshot-intake"
+    },
+    "session-recovery": {
+      "version": "0.1.0",
+      "path": ".github/skills/session-recovery"
+    },
+    "sharepoint-page-reader": {
+      "version": "0.1.0",
+      "path": ".github/skills/sharepoint-page-reader"
+    },
+    "skill-link": {
+      "version": "0.1.0",
+      "path": ".github/skills/skill-link"
+    },
+    "source-audit": {
+      "version": "0.1.0",
+      "path": ".github/skills/source-audit"
+    },
+    "specify": {
+      "version": "0.1.0",
+      "path": ".github/skills/specify"
+    },
+    "sprint-planning": {
+      "version": "0.1.0",
+      "path": ".github/skills/sprint-planning"
+    },
+    "standup-ingest": {
+      "version": "0.1.0",
+      "path": ".github/skills/standup-ingest"
+    },
+    "team-dashboard": {
+      "version": "0.1.0",
+      "path": ".github/skills/team-dashboard"
+    },
+    "upgrade": {
+      "version": "0.4.0",
+      "path": ".github/skills/upgrade"
+    },
+    "work-item-health": {
+      "version": "0.1.0",
+      "path": ".github/skills/work-item-health"
+    }
+  }
+}

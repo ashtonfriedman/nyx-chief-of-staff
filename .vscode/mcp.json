@@ -1,0 +1,28 @@
+{
+  "servers": {
+    "teams": {
+      "type": "stdio",
+      "command": "your-m365-mcp",
+      "args": ["mcp", "teams"],
+      "description": "Teams MCP server (configure your own M365 MCP provider)"
+    },
+    "calendar": {
+      "type": "stdio",
+      "command": "your-m365-mcp",
+      "args": ["mcp", "calendar"],
+      "description": "Calendar MCP server (configure your own M365 MCP provider)"
+    },
+    "mail": {
+      "type": "stdio",
+      "command": "your-m365-mcp",
+      "args": ["mcp", "mail"],
+      "description": "Mail MCP server (configure your own M365 MCP provider)"
+    },
+    "sharepoint": {
+      "type": "stdio",
+      "command": "your-m365-mcp",
+      "args": ["mcp", "sharepoint"],
+      "description": "SharePoint MCP server (configure your own M365 MCP provider)"
+    }
+  }
+}
