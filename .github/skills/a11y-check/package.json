@@ -1,0 +1,25 @@
+{
+  "name": "a11y-check",
+  "version": "1.0.0",
+  "description": "Accessibility scan for local DOM artifacts (HTML, SVG, .drawio, URL)",
+  "type": "module",
+  "main": "lib/scan.js",
+  "bin": {
+    "a11y-check": "lib/scan.js"
+  },
+  "scripts": {
+    "test": "node --test test/**/*.test.js"
+  },
+  "keywords": [
+    "accessibility",
+    "wcag",
+    "axe-core"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "axe-core": "^4.12.1",
+    "playwright": "^1.61.1"
+  }
+}

@@ -1,0 +1,5 @@
+node_modules/
+# transient scan/test artifacts
+*.log
+.a11y-check-work/
+test/**/tmp/

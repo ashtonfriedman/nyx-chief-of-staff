@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" width="200" height="100">
+  <title>Good contrast test</title>
+  <rect width="200" height="100" fill="#ffffff"/>
+  <text x="10" y="50" fill="#000000" font-size="14">High contrast text</text>
+</svg>
