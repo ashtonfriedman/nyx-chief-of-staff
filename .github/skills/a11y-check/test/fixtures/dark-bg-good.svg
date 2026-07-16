@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" width="200" height="100">
+  <title>Dark background, light text</title>
+  <rect width="200" height="100" fill="#222222"/>
+  <text x="10" y="50" fill="#ffffff" font-size="14">Light on dark</text>
+</svg>

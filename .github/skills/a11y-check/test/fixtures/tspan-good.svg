@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" width="200" height="100">
+  <title>Tspan good contrast</title>
+  <rect width="200" height="100" fill="#ffffff"/>
+  <text x="10" y="30" fill="#000000" font-size="14">
+    <tspan x="10" dy="0">Line one</tspan>
+    <tspan x="10" dy="1.2em">Line two</tspan>
+  </text>
+</svg>
